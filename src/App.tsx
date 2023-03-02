@@ -3,7 +3,8 @@ import * as React from 'react';
 import { styled } from '@mui/system';
 import { css } from '@emotion/react'
 
-import { Button, IconButton, SvgIcon } from "@mui/material";
+import {Button, IconButton} from "@mui/material";
+import {Card, CardHeader, CardContent} from "@mui/material"
 import {createTheme, ThemeProvider} from "@mui/material";
 
 import ShareIcon from '@mui/icons-material/Share';
@@ -57,6 +58,34 @@ const PC_Main = css`
   padding:5px;
 `
 
+const Card__Title = css`
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 2px;
+  font-size: 2.2rem;
+  font-weight: bold;
+  height: (2.2rem * 2 + 5px);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; 
+`
+
+const Card__TitleEdit = css`
+
+`
+
+const Card__Date = css`
+  font-size: 1rem;
+  font-weight: lighter;
+  text-align: right;
+`
+const Card__Writer = css`
+  font-size: 1rem;
+  font-weight: lighter;
+  text-align: right;
+`
+
+
 class GlobalState{
   isLogined:boolean
 
@@ -107,13 +136,26 @@ let [global, setGlobal] = React.useState(new GlobalState)
         <main >
           <PC>
             <div css={PC_Main}>
-              <div>memo list</div>
-              <div>memo body</div>
+              <Card>
+                <CardContent> 
+                  <div>
+                    <div css={css`display:flex; 
+                      flex-direction:column; 
+                      justify-content:space-between; 
+                      height:150px;`}>
+                      <h1 css={Card__Title}>이것은 제목입니다. 어쩔티비 저쩔티비 꼴받쥬 쿠크르핑뽕ㅋㅋㅋㅋㅋㅋ</h1>
+                      <textarea css={Card__TitleEdit} ></textarea>
+                      <div css={css`display:flex; flex-direction:column; gap:0.2rem;`}>
+                        <div css={Card__Date}>2023년 3월 1일</div>
+                        <div css={Card__Writer}> 김아무개</div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </PC>
-
         </main>
-
       </ThemeProvider>
     </div>
   ) 
