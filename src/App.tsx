@@ -3,15 +3,18 @@ import * as React from 'react';
 import { styled } from '@mui/system';
 import { css } from '@emotion/react'
 
-import {Button, IconButton} from "@mui/material";
-import {Card, CardHeader, CardContent} from "@mui/material"
+import {Button, IconButton} from '@mui/material';
+import {Card, CardHeader, CardContent} from '@mui/material'
 import {createTheme, ThemeProvider} from "@mui/material";
+import {Fab} from '@mui/material'
 
 import ShareIcon from '@mui/icons-material/Share';
 import GoogleIcon from '@mui/icons-material/Google';
-import imgUrl from "../app-logo.svg"
+import imgUrl from '../app-logo.svg'
+import { MemoInfo } from './component/MemoInfoCard';
+import MemoInfoCard from './component/MemoInfoCard'; 
 
-import {PC, Mobile} from "./component/ReactiveCP.module"
+import {PC, Mobile} from './component/ReactiveCP.module'
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -32,10 +35,12 @@ export default function App() {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 2px -1px 5px black;
+  border-bottom: 1px solid #999;
+  //box-shadow: 2px -1px 5px black;
 `
 
 const Logo__Img = css`
+  width: 40px;
   height: 40px;
   display: inline-block;
 `
@@ -46,7 +51,7 @@ const Logo__text = css`
   top: 4px;
   font-size: 32px;
   font-weight: 700;
-  font-family: "roboto";
+  font-family: 'roboto';
   display: inline-block;
   vertical-align: top;
   margin-left: 5px;
@@ -55,36 +60,8 @@ const Logo__text = css`
 const PC_Main = css`
   display: grid;
   grid-template-columns: 450px 1fr;
-  padding:5px;
+  padding: 5px;
 `
-
-const Card__Title = css`
-  text-overflow: ellipsis;
-  overflow: hidden;
-  padding: 2px;
-  font-size: 2.2rem;
-  font-weight: bold;
-  height: (2.2rem * 2 + 5px);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical; 
-`
-
-const Card__TitleEdit = css`
-
-`
-
-const Card__Date = css`
-  font-size: 1rem;
-  font-weight: lighter;
-  text-align: right;
-`
-const Card__Writer = css`
-  font-size: 1rem;
-  font-weight: lighter;
-  text-align: right;
-`
-
 
 class GlobalState{
   isLogined:boolean
@@ -95,6 +72,9 @@ class GlobalState{
 }
 
 let [global, setGlobal] = React.useState(new GlobalState)
+
+  let memoinfoTest:MemoInfo[] = [{Id:"0xoe", Title:'이것은 제목입니다네네네네네ㅔ넨네네네네네네네네네', Date:new Date()}]
+  let [memoList, setMemoList] = React.useState<MemoInfo[]>(memoinfoTest)
 
   return(
     <div className='App'>
@@ -117,8 +97,7 @@ let [global, setGlobal] = React.useState(new GlobalState)
                     global.isLogined? 
                       <span>profile</span>:
                       <span>
-                        <span className="sr-only">구글로 로그인</span>
-                        <Button variant="contained" startIcon={<GoogleIcon/>}
+                        <Button variant="contained" aria-label="구글로 로그인" startIcon={<GoogleIcon/>}
                           onClick={
                             () => {
                               setGlobal((prev) => {
@@ -136,25 +115,23 @@ let [global, setGlobal] = React.useState(new GlobalState)
         <main >
           <PC>
             <div css={PC_Main}>
-              <Card>
-                <CardContent> 
-                  <div>
-                    <div css={css`display:flex; 
-                      flex-direction:column; 
-                      justify-content:space-between; 
-                      height:150px;`}>
-                      <h1 css={Card__Title}>이것은 제목입니다. 어쩔티비 저쩔티비 꼴받쥬 쿠크르핑뽕ㅋㅋㅋㅋㅋㅋ</h1>
-                      <textarea css={Card__TitleEdit} ></textarea>
-                      <div css={css`display:flex; flex-direction:column; gap:0.2rem;`}>
-                        <div css={Card__Date}>2023년 3월 1일</div>
-                        <div css={Card__Writer}> 김아무개</div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <div css={css`grid-row:1; padding:5px; position:relative;`}>
+                {memoList.map(function(item){
+                  return <MemoInfoCard {...item}></MemoInfoCard>;
+                })}
+                <Fab css={css`position:absolute; right:0px; bottom:0px;`}></Fab>
+              </div>
             </div>
           </PC>
+          <Mobile>
+            <div>
+              <div>
+                {memoList.map(function(item){
+                  return <MemoInfoCard {...item}></MemoInfoCard>;
+                })}
+              </div>
+            </div>
+          </Mobile>
         </main>
       </ThemeProvider>
     </div>
